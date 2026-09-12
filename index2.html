@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Y4NCY — Booking</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, Helvetica, sans-serif; background:#050505; color:#fff; min-height:100vh; }
+    body::before { content:""; position:fixed; inset:0; background:
+      radial-gradient(circle at 20% 10%, rgba(255,255,255,.08), transparent 30%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,.04), transparent 25%);
+      pointer-events:none; }
+    .container { width:min(100% - 32px,820px); margin:auto; padding:60px 0 80px; }
+    header { margin-bottom:60px; }
+    .logo { font-size:clamp(52px,13vw,110px); font-weight:900; letter-spacing:-5px; line-height:.85; }
+    .subtitle { margin-top:18px; color:#888; text-transform:uppercase; letter-spacing:4px; font-size:12px; }
+    .divider { height:1px; background:#222; margin:36px 0; }
+    .intro { max-width:600px; line-height:1.7; color:#aaa; font-size:15px; }
+    .intro strong { color:white; }
+    .section-title { font-size:12px; text-transform:uppercase; letter-spacing:3px; color:#666; margin-bottom:18px; }
+    form { display:grid; gap:18px; }
+    .row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .field { display:flex; flex-direction:column; gap:8px; }
+    label { text-transform:uppercase; font-size:10px; letter-spacing:2px; color:#777; }
+    input, textarea, select { width:100%; border:1px solid #262626; background:#0c0c0c; color:white;
+      padding:16px; font-size:15px; outline:none; transition:.2s; border-radius:0; }
+    input:focus, textarea:focus, select:focus { border-color:#777; background:#111; }
+    textarea { resize:vertical; min-height:130px; }
+    select { appearance:none; }
+    button { margin-top:15px; width:100%; border:none; background:white; color:black; padding:19px;
+      font-weight:800; text-transform:uppercase; letter-spacing:2px; cursor:pointer; transition:.2s; }
+    button:hover { background:#d9d9d9; }
+    button:active { transform:scale(.995); }
+    .message { display:none; margin-top:20px; padding:20px; border:1px solid #333; background:#0b0b0b;
+      line-height:1.7; color:#bbb; }
+    .message strong { color:white; }
+    footer { margin-top:70px; font-size:10px; color:#444; text-transform:uppercase; letter-spacing:2px; }
+    @media (max-width:650px) {
+      .container { padding-top:40px; }
+      .row { grid-template-columns:1fr; }
+      .logo { letter-spacing:-3px; }
+    }
+  </style>
+</head>
+<body>
+<main class="container">
+  <header>
+    <div class="logo">Y4NCY</div>
+    <div class="subtitle">Artist Booking</div>
+    <div class="divider"></div>
+    <p class="intro">Booking inquiries for <strong>Y4NCY</strong>. Hard Dance / Hardcore / Neo-Rave.
+      Please provide as much information as possible about your event.
+      Submission of this form does not guarantee confirmation.</p>
+  </header>
+  <section>
+    <div class="section-title">Booking Request</div>
+    <form id="bookingForm" action="https://formspree.io/f/mrpgwgag" method="POST">
+      <div class="row">
+        <div class="field"><label>Promoter / Organization *</label><input type="text" id="promoter" name="promoter" placeholder="Promoter name" required /></div>
+        <div class="field"><label>Contact Name *</label><input type="text" id="contactName" name="contact_name" placeholder="Your name" required /></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Email *</label><input type="email" id="email" name="email" placeholder="booking@example.com" required /></div>
+        <div class="field"><label>Phone / WhatsApp</label><input type="text" id="phone" name="phone" placeholder="+1 ..." /></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Event Date *</label><input type="date" id="date" name="event_date" required /></div>
+        <div class="field"><label>Event Type *</label><select id="eventType" name="event_type" required>
+          <option value="">Select</option><option>Club</option><option>Festival</option>
+          <option>Warehouse / Rave</option><option>Private Event</option><option>Radio / Livestream</option><option>Other</option>
+        </select></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>City *</label><input type="text" id="city" name="city" placeholder="Los Angeles" required /></div>
+        <div class="field"><label>Venue</label><input type="text" id="venue" name="venue" placeholder="Venue / TBA" /></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Expected Attendance</label><input type="number" id="attendance" name="expected_attendance" placeholder="500" /></div>
+        <div class="field"><label>Set Length</label><select id="setLength" name="set_length">
+          <option value="">Select</option><option>60 min</option><option>90 min</option><option>120 min</option><option>Extended Set</option><option>TBA</option>
+        </select></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Offer / Budget</label><input type="text" id="budget" name="offer_budget" placeholder="$ USD" /></div>
+        <div class="field"><label>Travel Covered?</label><select id="travel" name="travel_covered">
+          <option value="">Select</option><option>Yes</option><option>No</option><option>Negotiable</option><option>Local Booking</option>
+        </select></div>
+      </div>
+      <div class="field"><label>Event / Lineup Information *</label>
+        <textarea id="details" name="event_lineup_information" placeholder="Tell us about the event, lineup, running order, venue and proposed set time..." required></textarea></div>
+      <div class="field"><label>Instagram / Website</label><input type="text" id="social" name="instagram_website" placeholder="@promoter / https://..." /></div>
+      <button type="submit">Submit Booking Request</button>
+    </form>
+    <div class="message" id="successMessage"><strong>REQUEST RECEIVED.</strong><br><br>
+      Thank you for your interest in booking Y4NCY. Your request has been recorded.<br><br>
+      This submission does not constitute a confirmed booking.</div>
+  </section>
+  <footer>Y4NCY © 2026</footer>
+</main>
+<script>
+const form = document.getElementById("bookingForm");
+const message = document.getElementById("successMessage");
+const submitButton = form.querySelector('button[type="submit"]');
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  submitButton.disabled = true;
+  submitButton.textContent = "SENDING...";
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (response.ok) {
+      form.style.display = "none";
+      message.style.display = "block";
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+    } else {
+      const data = await response.json().catch(() => ({}));
+      alert(
+        data.errors
+          ? data.errors.map(error => error.message).join(", ")
+          : "Something went wrong. Please try again."
+      );
+      submitButton.disabled = false;
+      submitButton.textContent = "SUBMIT BOOKING REQUEST";
+    }
+  } catch (error) {
+    alert("Unable to send the booking request. Please check your connection and try again.");
+    submitButton.disabled = false;
+    submitButton.textContent = "SUBMIT BOOKING REQUEST";
+  }
+});
+</script>
+</body>
+</html>
